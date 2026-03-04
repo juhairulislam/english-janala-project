@@ -1,3 +1,25 @@
+const crateElement = (arr) => {
+    const htmlElements = arr.map(el =>`<span class='btn'>${el}</span>`) ;
+    return (htmlElements.join(' ')) ;
+
+}
+
+
+// spinner function
+const manageSpinner = (status)=>{
+
+    if(status == true){
+        document.getElementById('spinner').classList.remove('hidden') ;
+        document.getElementById('word-container').classList.add('hidden') ;
+    } else{
+        document.getElementById('word-container').classList.remove('hidden') ;
+        document.getElementById('spinner').classList.add('hidden'); 
+
+    }
+}
+
+
+
 const loadLessons = () => {
     fetch('https://openapi.programming-hero.com/api/levels/all')
         .then((res) => res.json())
@@ -22,6 +44,7 @@ const removeActive = () => {
 // loadLevelWord
 
 const loadLevelWord = (id) =>{
+    manageSpinner(true)
     const url = `https://openapi.programming-hero.com/api/level/${id}`
 
     fetch(url)
@@ -95,9 +118,8 @@ const displayWordDetails = (word) =>{
                 </div>
                 <div class="">
                     <h2 class=" font-bangla mb-2">সমার্থক শব্দ গুলো</h2>
-                    <button class="btn bg-[#EDF7FF] mr-1">${word.synonyms[0]}</button>
-                    <button class="btn bg-[#EDF7FF] mr-1">${word.synonyms[1]}</button>
-                    <button class="btn bg-[#EDF7FF] mr-1">${word.synonyms[2]}</button>
+                    <div class="">${crateElement(word.synonyms)} </div>
+                  
                 </div>
     
     `
@@ -131,7 +153,7 @@ const displayLevelWord = (words) =>{
             
             ` ;
 
-            
+            manageSpinner(false)
             return;
 
 
@@ -165,7 +187,8 @@ const displayLevelWord = (words) =>{
 
 
  })
-}
+ manageSpinner(false)
+} ;
 
 
 const displayLessons = (lessons) => {
